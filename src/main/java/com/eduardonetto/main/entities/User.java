@@ -39,12 +39,14 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(Long id, String name, String cpf, String email, String password) {
+	public User(Long id, String name, String cpf, String email, String password, UserType type, Double balance) {
 		this.id = id;
 		this.name = name;
 		this.cpf = cpf;
 		this.email = email;
 		this.password = password;
+		this.type = type;
+		this.balance = balance;
 	}
 
 	public User(UserDTO dto) {
@@ -53,6 +55,8 @@ public class User implements Serializable {
 		this.cpf = dto.cpf();
 		this.email = dto.email();
 		this.password = dto.password();
+		this.type = dto.type();
+		this.balance = dto.balance();
 	}
 
 	public Long getId() {
