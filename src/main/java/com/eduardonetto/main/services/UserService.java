@@ -39,4 +39,20 @@ public class UserService {
 		return repository.save(user);
 	}
 
+	public User update(Long id, InsertDTO obj) {
+		User user = findById(id);
+
+		if (obj.name() != null)
+			user.setName(obj.name());
+		if (obj.cpf() != null)
+			user.setCpf(obj.cpf());
+		if (obj.email() != null)
+			user.setEmail(obj.email());
+		if (obj.password() != null)
+			user.setPassword(obj.password());
+		if (obj.type() != null)
+			user.setType(UserType.valueOf(obj.type().toUpperCase()));
+		return repository.save(user);
+	}
+
 }
