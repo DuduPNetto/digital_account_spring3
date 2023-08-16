@@ -59,6 +59,14 @@ public class User implements Serializable {
 		this.balance = dto.balance();
 	}
 
+	public void addBalance(double value) {
+		balance += value;
+	}
+
+	public void removeBalance(double value) {
+		balance -= value;
+	}
+
 	public Long getId() {
 		return id;
 	}
