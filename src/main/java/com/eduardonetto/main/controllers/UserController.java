@@ -22,7 +22,7 @@ import com.eduardonetto.main.entities.User;
 import com.eduardonetto.main.services.UserService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/user/")
 public class UserController {
 
 	@Autowired
