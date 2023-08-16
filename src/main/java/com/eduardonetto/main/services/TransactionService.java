@@ -1,8 +1,12 @@
 package com.eduardonetto.main.services;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.eduardonetto.main.components.JsonFetcher;
+import com.eduardonetto.main.components.data.JsonData;
 import com.eduardonetto.main.controllers.dto.TransactionDTO;
 import com.eduardonetto.main.entities.User;
 import com.eduardonetto.main.entities.enums.UserType;
@@ -14,9 +18,12 @@ public class TransactionService {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private UserRepository repository;
+
+	@Autowired
+	private JsonFetcher fetcher;
 
 	public void transfer(TransactionDTO dto) {
 
@@ -35,11 +42,16 @@ public class TransactionService {
 			throw new TransactionException("Invalid balance for send this money amount.");
 		}
 
+		JsonData data = fetcher.fetchJsonData();
+
+		if (!data.getContent().equals("Autorizado")) {
+			throw new TransactionException("Transaction not authorized.");
+		}
+
 		payer.setBalance(payer.getBalance() - dto.amount());
 		receiver.setBalance(receiver.getBalance() + dto.amount());
-		
-		repository.save(payer);
-		repository.save(receiver);
+
+		repository.saveAll(Arrays.asList(payer, receiver));
 
 	}
 
