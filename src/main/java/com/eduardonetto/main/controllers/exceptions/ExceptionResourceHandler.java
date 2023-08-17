@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.eduardonetto.main.services.exceptions.BalanceException;
 import com.eduardonetto.main.services.exceptions.DatabaseException;
 import com.eduardonetto.main.services.exceptions.ObjectNotFoundException;
 import com.eduardonetto.main.services.exceptions.TransactionException;
@@ -37,6 +38,15 @@ public class ExceptionResourceHandler {
 	@ExceptionHandler(DatabaseException.class)
 	public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request) {
 		String error = "Database exception";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
+				request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+
+	@ExceptionHandler(BalanceException.class)
+	public ResponseEntity<StandardError> balance(BalanceException e, HttpServletRequest request) {
+		String error = "Balance exception";
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(),
 				request.getRequestURI());

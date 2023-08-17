@@ -20,8 +20,7 @@ public class JsonFetcher {
 		this.restTemplate = restTemplate;
 	}
 
-	public JsonData fetchJsonData() {
-		String url = "https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6";
+	public JsonData fetchJsonData(String url) {
 		ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
 		try {

@@ -42,7 +42,7 @@ public class TransactionService {
 			throw new TransactionException("Invalid balance for send this money amount.");
 		}
 
-		JsonData data = fetcher.fetchJsonData();
+		JsonData data = fetcher.fetchJsonData("https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6");
 
 		if (!data.getContent().equals("Autorizado")) {
 			throw new TransactionException("Transaction not authorized.");
