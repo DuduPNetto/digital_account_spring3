@@ -21,6 +21,10 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 
+	public User save(User user) {
+		return repository.save(user);
+	}
+
 	public List<User> findAll() {
 		return repository.findAll();
 	}
@@ -40,7 +44,7 @@ public class UserService {
 				UserType.valueOf(obj.type().toUpperCase()), 0.0);
 
 		try {
-			user = repository.save(user);
+			save(user);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Email or CPF/CNPJ has already been registered.");
 		}
@@ -63,7 +67,7 @@ public class UserService {
 			user.setType(UserType.valueOf(obj.type().toUpperCase()));
 
 		try {
-			user = repository.save(user);
+			save(user);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Email or CPF/CNPJ has already been registered.");
 		}

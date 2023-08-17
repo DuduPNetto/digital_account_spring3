@@ -1,7 +1,5 @@
 package com.eduardonetto.main.services;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +8,6 @@ import com.eduardonetto.main.components.data.JsonData;
 import com.eduardonetto.main.controllers.dto.TransactionDTO;
 import com.eduardonetto.main.entities.User;
 import com.eduardonetto.main.entities.enums.UserType;
-import com.eduardonetto.main.repositories.UserRepository;
 import com.eduardonetto.main.services.exceptions.TransactionException;
 
 @Service
@@ -18,9 +15,6 @@ public class TransactionService {
 
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private UserRepository repository;
 
 	@Autowired
 	private JsonFetcher fetcher;
@@ -51,7 +45,8 @@ public class TransactionService {
 		payer.setBalance(payer.getBalance() - dto.amount());
 		receiver.setBalance(receiver.getBalance() + dto.amount());
 
-		repository.saveAll(Arrays.asList(payer, receiver));
+		userService.save(payer);
+		userService.save(receiver);
 
 	}
 
