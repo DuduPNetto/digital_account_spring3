@@ -1,5 +1,7 @@
 package com.eduardonetto.main.services;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +21,11 @@ public class TransactionService {
 	@Autowired
 	private JsonFetcher fetcher;
 
-	public void transfer(TransactionDTO dto) {
+	private String authorized = "https://run.mocky.io/v3/f81e50db-aaaf-4dac-a5e5-844c5db30dab";
+	private String rejected = "https://run.mocky.io/v3/265c27e0-b21f-4908-8b8c-7b0165ba30f1";
+	private Random random = new Random();
 
+	public void transfer(TransactionDTO dto) {
 		User payer = userService.findById(dto.payerId());
 		User receiver = userService.findById(dto.receiverId());
 
@@ -36,9 +41,16 @@ public class TransactionService {
 			throw new TransactionException("Invalid balance for send this money amount.");
 		}
 
-		JsonData data = fetcher.fetchJsonData("https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6");
+		int number = random.nextInt(1, 3);
+		JsonData data;
 
-		if (!data.getContent().equals("Autorizado")) {
+		if (number == 1) {
+			data = fetcher.fetchJsonData(authorized);
+		} else {
+			data = fetcher.fetchJsonData(rejected);
+		}
+
+		if (!data.getContent().equals("Authorized")) {
 			throw new TransactionException("Transaction not authorized.");
 		}
 
@@ -47,7 +59,6 @@ public class TransactionService {
 
 		userService.save(payer);
 		userService.save(receiver);
-
 	}
 
 }

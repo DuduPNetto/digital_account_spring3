@@ -1,5 +1,7 @@
 package com.eduardonetto.main.services;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +21,21 @@ public class BalanceService {
 	@Autowired
 	private JsonFetcher fetcher;
 
-	public BalanceDTO getBalance(Long id) {
-		JsonData data = fetcher.fetchJsonData("https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6");
+	private String authorized = "https://run.mocky.io/v3/f81e50db-aaaf-4dac-a5e5-844c5db30dab";
+	private String rejected = "https://run.mocky.io/v3/265c27e0-b21f-4908-8b8c-7b0165ba30f1";
+	private Random random = new Random();
 
-		if (!data.getContent().equals("Autorizado")) {
+	public BalanceDTO getBalance(Long id) {
+		int number = random.nextInt(1, 3);
+		JsonData data;
+
+		if (number == 1) {
+			data = fetcher.fetchJsonData(authorized);
+		} else {
+			data = fetcher.fetchJsonData(rejected);
+		}
+
+		if (!data.getContent().equals("Authorized")) {
 			throw new BalanceException("You don't have access to this function.");
 		}
 
@@ -31,9 +44,16 @@ public class BalanceService {
 	}
 
 	public UserDTO deposit(Long id, BalanceDTO balanceDto) {
-		JsonData data = fetcher.fetchJsonData("https://run.mocky.io/v3/8fafdd68-a090-496f-8c9a-3442cf30dae6");
+		int number = random.nextInt(1, 3);
+		JsonData data;
 
-		if (!data.getContent().equals("Autorizado")) {
+		if (number == 1) {
+			data = fetcher.fetchJsonData(authorized);
+		} else {
+			data = fetcher.fetchJsonData(rejected);
+		}
+
+		if (!data.getContent().equals("Authorized")) {
 			throw new BalanceException("You don't have access to this function.");
 		}
 
@@ -44,7 +64,7 @@ public class BalanceService {
 		User user = userService.findById(id);
 		user.addBalance(balanceDto.amount());
 		user = userService.save(user);
-		
+
 		return userService.toDto(user);
 	}
 
