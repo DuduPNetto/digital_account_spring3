@@ -1,4 +1,4 @@
-package com.eduardonetto.main;
+package com.eduardonetto.main.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,7 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 import com.eduardonetto.main.controllers.dto.UserDTO;
 import com.eduardonetto.main.entities.User;
 import com.eduardonetto.main.entities.enums.UserType;
-import com.eduardonetto.main.repositories.UserRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
