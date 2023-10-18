@@ -24,13 +24,13 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 200)
 	private String name;
 	@Column(unique = true, nullable = false, length = 30)
 	private String cpf;
-	@Column(unique = true, nullable = false, length = 100)
+	@Column(unique = true, nullable = false, length = 200)
 	private String email;
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false, length = 200)
 	private String password;
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
