@@ -26,7 +26,7 @@ public class User implements Serializable {
 	private Long id;
 	@Column(nullable = false, length = 200)
 	private String name;
-	@Column(unique = true, nullable = false, length = 30)
+	@Column(unique = true, nullable = false, length = 11)
 	private String cpf;
 	@Column(unique = true, nullable = false, length = 200)
 	private String email;
